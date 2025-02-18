@@ -1,0 +1,100 @@
+{
+    "NetworkInterfaces": [
+        {
+            "Association": {
+                "IpOwnerId": "amazon-elb",
+                "PublicDnsName": "",
+                "PublicIp": "51.20.27.58"
+            },
+            "Attachment": {
+                "AttachTime": "2025-02-18T09:23:10+00:00",
+                "AttachmentId": "eni-attach-0c602920a85115792",
+                "DeleteOnTermination": false,
+                "DeviceIndex": 1,
+                "NetworkCardIndex": 0,
+                "InstanceOwnerId": "amazon-elb",
+                "Status": "attached"
+            },
+            "AvailabilityZone": "eu-north-1a",
+            "Description": "ELB app/Custom-lb-0/7f59d2a88fef9a4b",
+            "Groups": [
+                {
+                    "GroupName": "Sg-for-lb-0",
+                    "GroupId": "sg-0c5bbbd85bbd2bf68"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "06:88:2f:61:cd:bd",
+            "NetworkInterfaceId": "eni-0a1dd0a87aae369ff",
+            "OwnerId": "637423489195",
+            "PrivateIpAddress": "10.0.0.79",
+            "PrivateIpAddresses": [
+                {
+                    "Association": {
+                        "IpOwnerId": "amazon-elb",
+                        "PublicDnsName": "",
+                        "PublicIp": "51.20.27.58"
+                    },
+                    "Primary": true,
+                    "PrivateIpAddress": "10.0.0.79"
+                }
+            ],
+            "RequesterId": "amazon-elb",
+            "RequesterManaged": true,
+            "SourceDestCheck": true,
+            "Status": "in-use",
+            "SubnetId": "subnet-0dfb3fdbe151f37f2",
+            "TagSet": [],
+            "VpcId": "vpc-063fae16a8513ff7a"
+        },
+        {
+            "Association": {
+                "IpOwnerId": "amazon-elb",
+                "PublicDnsName": "",
+                "PublicIp": "13.49.118.30"
+            },
+            "Attachment": {
+                "AttachTime": "2025-02-18T09:23:07+00:00",
+                "AttachmentId": "eni-attach-02b23809678bec75d",
+                "DeleteOnTermination": false,
+                "DeviceIndex": 1,
+                "NetworkCardIndex": 0,
+                "InstanceOwnerId": "amazon-elb",
+                "Status": "attached"
+            },
+            "AvailabilityZone": "eu-north-1b",
+            "Description": "ELB app/Custom-lb-1/8b2ab87f29f33519",
+            "Groups": [
+                {
+                    "GroupName": "Sg-for-lb-1",
+                    "GroupId": "sg-06d16f805cad2aad5"
+                }
+            ],
+            "InterfaceType": "interface",
+            "Ipv6Addresses": [],
+            "MacAddress": "0a:fa:b1:d4:7d:bd",
+            "NetworkInterfaceId": "eni-0cf99fffc7ed72365",
+            "OwnerId": "637423489195",
+            "PrivateIpAddress": "10.0.1.18",
+            "PrivateIpAddresses": [
+                {
+                    "Association": {
+                        "IpOwnerId": "amazon-elb",
+                        "PublicDnsName": "",
+                        "PublicIp": "13.49.118.30"
+                    },
+                    "Primary": true,
+                    "PrivateIpAddress": "10.0.1.18"
+                }
+            ],
+            "RequesterId": "amazon-elb",
+            "RequesterManaged": true,
+            "SourceDestCheck": true,
+            "Status": "in-use",
+            "SubnetId": "subnet-0dcad409ae3039f42",
+            "TagSet": [],
+            "VpcId": "vpc-063fae16a8513ff7a"
+        }
+    ]
+}
