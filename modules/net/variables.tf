@@ -1,4 +1,4 @@
-#VPC
+#VPC(unnecessary)
 variable "vpc_cidr" {
   default     = "10.0.0.0/16"
   description = "Cidr_block value of Vpc"
@@ -51,7 +51,7 @@ variable "igw_tag" {
   default = "Custom Internet Gateway"
 }
 
-#Subnet
+#Subnet section
 variable "pub_sub_cnt" {
   type = number
   default = 2
@@ -62,6 +62,11 @@ variable "priv_sub_cnt" {
   type = number
   default = 0
   description = "The number of needed Private Subnets"
+}
+
+variable "av_zones" {
+  type = list(string)
+  default = ["eu-north-1a", "eu-north-1b"]
 }
 
 variable "map_public_ip" {
@@ -82,6 +87,11 @@ variable "pub_sub_tag" {
 
 variable "priv_sub_tag" {
   default = "Custom Private Subnet"
+}
+
+variable "subnets_data_cnt" {
+  type = number
+  default = 1
 }
 
 #Eip/NAT
@@ -320,4 +330,62 @@ variable "sg_egress" {
           desc = "Allow all outgoing traffic"
         },
     ]
-} 
+}
+
+variable "rds_sg_cnt" {
+  type = number
+  default = 1
+}
+
+variable "rds_sg_name" {
+  default = "Sg-for-RDS"
+}
+
+variable "rds_sg_desc" {
+  default = "Allow pg-db incoming traffic from backend"
+}
+
+variable "rds_sg_tag" {
+  default = "RDS-sg-tag-value"
+}
+
+variable "rds_sg_ing_cnt" {
+  type = number
+  default = 1
+}
+
+variable "rds_sg_ing_tag" {
+  default = "RDS-sg-ing-tag-value"
+}
+
+variable "rds_ing_port" {
+  type = number
+  default = 5432
+}
+
+variable "rds_ing_proto" {
+  default = "tcp"
+}
+
+variable "rds_sg_ing_desc" {
+  default = "Allow incoming traffic dirrected to 5432 port-number"
+}
+
+variable "rds_sg_eg_cnt" {
+  type = number
+  default = 1
+}
+
+variable "rds_sg_eg_tag" {
+  default = "RDS-sg-eg-tag-value"
+}
+
+variable "rds_eg_proto" {
+  default = "-1"
+}
+
+variable "rds_eg_desc" {
+  default = "Allow all outgoing traffic"
+}
+
+

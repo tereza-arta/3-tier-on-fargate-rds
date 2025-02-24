@@ -53,6 +53,10 @@ output "pub_sub_id" {
   value = aws_subnet.pub.*.id
 }
 
+output "pub_sub_id_list" {
+  value = [aws_subnet.pub.*.id]
+}
+
 output "pub_sub_arn" {
   value = aws_subnet.pub.*.arn
 }
@@ -96,6 +100,14 @@ output "pub_sub_tags" {
 output "priv_sub_tags" {
   value = aws_subnet.priv.*.tags
 }
+
+output "subnets" {
+  value = [for subnet in data.aws_subnets.pub : subnet.id]
+}
+
+#output "subnets" {
+#  value = [for subnet in aws_subnet.pub.*.id : subnet.id]
+#}
 
 #Eip/NAT
 output "eip_id" {
@@ -184,15 +196,27 @@ output "lb_sg_tags" {
   value = aws_security_group.for_lb.*.tags_all
 }
 
-output "sg_id" {
+output "rds_sg_id" {
+  value = aws_security_group.for_rds.*.id
+}
+
+output "rds_sg_arn" {
+  value = aws_security_group.for_rds.*.arn
+}
+
+output "rds_sg_tags" {
+  value = aws_security_group.for_rds.*.tags_all
+}
+
+output "ecs_sg_id" {
   value = aws_security_group.for_ecs.*.id
 }
 
-output "sg_arn" {
+output "ecs_sg_arn" {
   value = aws_security_group.for_ecs.*.arn
 }
 
-output "sg_tags" {
+output "ecs_sg_tags" {
   value = aws_security_group.for_ecs.*.tags_all
 }
 
@@ -215,4 +239,3 @@ output "ecs_sg_1_id" {
 output "ecs_sg_2_id" {
   value = aws_security_group.for_ecs[2].id
 }
-

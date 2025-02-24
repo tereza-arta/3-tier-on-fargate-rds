@@ -9,7 +9,7 @@ const MainComponent = () => {
   // Use useCallback inside the component function
   const getAllNumbers = useCallback(async () => {
     try {
-      const response = await axios.get("http://13.50.244.125:5000/api/values/all");
+      const response = await axios.get("http://{process.env.REACT_APP_API_URL}:5000/api/values/all");
       setValues(response.data.map(row => row.number)); // Match backend response format
     } catch (error) {
       console.error("Error fetching numbers:", error);
@@ -20,7 +20,7 @@ const MainComponent = () => {
     async (event) => {
       event.preventDefault();
       try {
-        await axios.post("http://13.50.244.125:5000/api/values", {
+        await axios.post("http://13.51.165.12:5000/api/values", {
           value,
         });
         setValue("");  // Clear the input after saving
