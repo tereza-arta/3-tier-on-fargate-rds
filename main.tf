@@ -24,21 +24,62 @@ module "ecr" {
   source = "./modules/ecr"
   count = var.enable_ecr ? 1 : 0
 
-  #fnt_lb_dns_name = module.lb[0].dns_name
-  #depends_on = [module.lb[0]]
+  repo_name = "srv"
+  df_context = "app/srv"
 }
-
 
 module "ecs" {
   source = "./modules/ecs"
   count = var.enable_ecs ? 1 : 0
 
   repo_url = module.ecr[0].repo_url
+  task_def_name = "srv-task-def"
+  cnt_name = "srv-cnt"
+  app_port = 5000
   db_username = module.rds[0].username
   db_password = module.rds[0].password
   db_name = module.rds[0].db_name
   db_host = module.rds[0].rds_0_endpoint
-  vpc_id = modules.net[0].vpc_id
+  vpc_id = module.net[0].vpc_id
+  svc_name = "srv-svc"
+
+  cluster_id = null
 
   #tg_arn = module.lb[0].tg_arn
 }
+
+##Second ECR module execution
+#module "ecr-sec" {
+#  source = "./modules/ecr"
+#  count = var.enable_ecr ? 1 : 0
+#
+#  repo_name = "fnt"
+#  build_arg = true
+#  df_context = "app/fnt"
+#}
+#
+###Second ECS module execution
+#module "ecs-sec" {
+#  source = "./modules/ecs"
+#  count = var.enable_ecs ? 1 : 0
+#
+#  role_name = "execRoleSecond"
+#  cluster_name = "bla"
+#  task_def_name = "fnt-task-def"
+#  cnt_name = "fnt-cnt"
+#  app_port = 3000  
+#  cluster_id_from_var = true
+#  cluster_id = module.ecs[0].cluster_id
+#
+#  repo_url = module.ecr[0].repo_url
+#  vpc_id = module.net[0].vpc_id
+#  svc_name = "fnt-svc"
+#  cluster_cnt = 1
+#
+#  db_username = null
+#  db_password = null
+#  db_name = null
+#  db_host = null
+#
+#  depends_on = [module.ecs[0]]
+#}

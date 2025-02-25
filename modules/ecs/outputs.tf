@@ -1,9 +1,7 @@
-#$output "thingy" {
-#$  value      = "whatever makes sense"
-#$  depends_on = [aws_ecs_service.srv_svc]
-#$}
+output "cluster_id" {
+  value = aws_ecs_cluster.example[0].id
+}
 
-#output "thingy-2" {
-#  value      = "whatever makes sense"
-#  depends_on = [aws_ecs_service.db_svc]
-#}
+output "task_def_arn" {
+  value = aws_ecs_task_definition.this[0].arn
+}

@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "different" {
   count = var.ecr_cnt
-  name = var.repo_name[count.index]
+  name = var.repo_name
   image_tag_mutability = var.mutability
 }
 
@@ -35,8 +35,9 @@ resource "terraform_data" "dkr_pack" {
   provisioner "local-exec" {
     command = <<EOF
     aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.eu-north-1.amazonaws.com
-    if [ var.build_arg != true ]; then docker build -t "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}" -f "${var.df_context[var.index]}/Dockerfile" .; fi
-    if [ var.build_arg == true ]; then docker build --build-arg "SRV_IP=${var.fnt_lb_dns_name[0]}"  -t "${aws_ecr_repository.different[1].repository_url}:${var.image_tag}" -f "${var.df_context[1]}/Dockerfile" .; fi
+    a = var.build_arg
+    if [ !$a ]; then docker build -t "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}" -f "${var.df_context}/Dockerfile" .; fi
+    if [ $a ]; then docker build --build-arg "SRV_IP=13.61.21.216" -t "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}" -f "${var.df_context}/Dockerfile" .; fi
     docker push "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}"
     EOF
   }

@@ -1,13 +1,15 @@
 variable "ecr_cnt" {
   type = number
-  default = 2
+  default = 1
   description = "Count of ecr repos for app components"
 }
 
-variable "repo_name" {
-  type = list(string)
-  default = ["srv", "fnt"]
-}
+variable "repo_name" {}
+
+#variable "repo_name" {
+#  type = list(string)
+#  default = ["srv", "fnt"]
+#}
 
 variable "index" {
   type = number
@@ -18,11 +20,13 @@ variable "mutability" {
   default = "MUTABLE"
 }
 
-variable "df_context" {
-  type = list(string)
-  default = ["app/srv", "app/fnt"]
-  description = "Relative path of appropriate app-component Dockerfilei"
-}
+variable "df_context" {}
+
+#variable "df_context" {
+#  type = list(string)
+#  default = ["app/srv", "app/fnt"]
+#  description = "Relative path of appropriate app-component Dockerfilei"
+#}
 
 variable "tf_data_dkr_pack" {
   type = bool
@@ -40,8 +44,4 @@ variable "image_tag" {
   default = "latest"
   description = "Default image-tag for all app-components"
 }
-
-#variable "dkr_pack_dependency" {}
-
-#variable "fnt_lb_dns_name" {}
 

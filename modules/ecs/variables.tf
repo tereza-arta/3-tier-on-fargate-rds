@@ -3,9 +3,23 @@ variable "cluster_name" {
   description = "Name of ecs cluster"
 }
 
+variable "role_cnt" {
+  type = number
+  default = 1
+}
+
 variable "role_name" {
   default = "ecsTaskExecutionRole"
   description = "Name of ecs task exec-role"
+}
+
+variable "cluster_cnt" {
+  type = number
+  default = 1
+}
+
+variable "cluster_tag" {
+  default = "Cluster-tag-value"
 }
 
 variable "task_def_cnt" {
@@ -13,11 +27,13 @@ variable "task_def_cnt" {
   default = 1
 }
 
-variable "task_def_name" {
-  type = list(string)
-  default = ["srv-task-def", "fnt-task-def"]
-  description = "List of task definitions name for app"
-}
+variable "task_def_name" {}
+
+#variable "task_def_name" {
+#  type = list(string)
+#  default = ["srv-task-def", "fnt-task-def"]
+#  description = "List of task definitions name for app"
+#}
 
 variable "index" {
   type = number
@@ -35,21 +51,18 @@ variable "net_mode" {
 }
 
 variable "task_cpu" {
-  type = list(number)
-  default = [1024, 1024]
+  type = number
+  default = 1024
   description = "Number of CPU used by the task"
 }
 
 variable "task_memory" {
-  type = list(number)
-  default = [2048, 2048]
+  type = number
+  default = 2048
   description = "Amount of memory used by the task"
 }
 
-variable "cnt_name" {
-  type = list(string)
-  default = ["srv-cnt", "fnt-cnt"]
-}
+variable "cnt_name" {}
 
 variable "repo_url"{}
 
@@ -60,14 +73,14 @@ variable "image_tag" {
 }
 
 variable "cnt_cpu" {
-  type = list(number)
-  default = [1024, 1024]
+  type = number
+  default = 1024
   description = "Number of CPU used by the container"
 }
 
 variable "cnt_memory" {
-  type = list(number)
-  default = [2048, 2048]
+  type = number
+  default = 2048
   description = "Amount of memory used by the container"
 }
 
@@ -78,11 +91,8 @@ variable "essential" {
 }
 
 variable "app_port" {
-  type = list(number)
-  default = [5000, 3000]
+  type = number
 }
-
-
 
 variable "env_1" {
   default = "PGUSER"
@@ -115,6 +125,14 @@ variable "db_port" {
 
 variable "vpc_id" {}
 
+variable "sg_filter_name" {
+  default = "group-name"
+}
+
+variable "sg_filter_value" {
+  default = "*RDS*"
+}
+
 #variable "task_def_dependency" {}
 
 variable "svc_cnt" {
@@ -122,11 +140,15 @@ variable "svc_cnt" {
   default = 1
 }
 
-variable "svc_name" {
-  type = list(string)
-  default = ["srv-svc", "fnt-svc"]
-  description = "Ecs service name for our app components"
+variable "svc_name" {}
+
+variable "cluster_id_from_var" {
+  type = bool
+  default = false
+  description = "Get cluster-id from custom variable or not"
 }
+
+variable "cluster_id" {}
 
 variable "platform_version" {
   default = "LATEST"

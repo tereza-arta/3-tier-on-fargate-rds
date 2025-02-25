@@ -9,20 +9,22 @@ data "aws_iam_policy_document" "policy" {
 }
 
 resource "aws_iam_role" "ecs_task_exec_role" {
+  count = var.role_cnt
   name = var.role_name
   assume_role_policy = "${data.aws_iam_policy_document.policy.json}"
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_rp_attach" {
-  role = "${aws_iam_role.ecs_task_exec_role.name}"
+  role = "${aws_iam_role.ecs_task_exec_role[var.index].name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_ecs_cluster" "example" {
+  count = var.cluster_cnt
   name = var.cluster_name
 
   tags = {
-    Name = "Cluster-tag-value"
+    Name = var.cluster_tag
   }
 }
 
@@ -32,28 +34,28 @@ resource "aws_ecs_cluster" "example" {
 
 resource "aws_ecs_task_definition" "this" {
   count = var.task_def_cnt
-  family = var.task_def_name[var.index]
+  family = var.task_def_name
   requires_compatibilities = [var.launch_type]
   #execution_role_arn = var.index == 0 ? aws_iam_role.ecs_task_exec_role.arn : ""
-  execution_role_arn = aws_iam_role.ecs_task_exec_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_exec_role[var.index].arn
   network_mode = var.net_mode
-  cpu = var.task_cpu[var.index]
-  memory = var.task_memory[var.index]
+  cpu = var.task_cpu
+  memory = var.task_memory
 
   container_definitions = jsonencode ([
     {
-      name = var.cnt_name[var.index]
+      name = var.cnt_name
       image = "${var.repo_url[var.index]}:${var.image_tag}"
-      cpu = var.cnt_cpu[var.index]
-      memory = var.cnt_memory[var.index]
+      cpu = var.cnt_cpu
+      memory = var.cnt_memory
       essential = var.essential
       portMappings = [
         {
-          containerPort = var.app_port[var.index]
-          hostPort = var.app_port[var.index]
+          containerPort = var.app_port
+          hostPort = var.app_port
         }
       ]
-      environment = var.app_port[var.index] != 5000 ? [] : [
+      environment = var.app_port != 5000 ? [] : [
         {
           name = var.env_1
           value = var.db_username
@@ -102,10 +104,10 @@ data "aws_security_groups" "for_rds" {
 
 resource "aws_ecs_service" "this" {
   count = var.svc_cnt
-  name = "${var.svc_name[var.index]}"
+  name = "${var.svc_name}-${count.index}"
   launch_type = var.launch_type
   platform_version = var.platform_version
-  cluster = aws_ecs_cluster.example.id
+  cluster = var.cluster_id_from_var ? var.cluster_id : aws_ecs_cluster.example[0].id
   task_definition = aws_ecs_task_definition.this[var.index].arn
   scheduling_strategy = var.scheduling
   desired_count = var.desired_count
@@ -126,54 +128,6 @@ resource "aws_ecs_service" "this" {
 #    container_port   = 5000
 #  }
 }
-
-#resource "aws_ecs_service" "srv_svc" {
-#  name = "Srv-svc"
-#  launch_type = var.launch_type
-#  platform_version = var.platform_version
-#  cluster = aws_ecs_cluster.example.id
-#  task_definition = aws_ecs_task_definition.srv.arn
-#  scheduling_strategy = var.scheduling
-#  desired_count = var.desired_count
-#  deployment_minimum_healthy_percent = var.min_healthy_perc
-#  deployment_maximum_percent = var.max_perc
-#  #iam_role = aws_iam_role.ecs_task_exec_role.arn
-#
-#  depends_on = [aws_ecs_task_definition.srv]
-#
-#  network_configuration {
-#    assign_public_ip = var.pub_ip
-#    security_groups = [var.sec_group_1]
-#    subnets = var.subnets
-#  }
-#  load_balancer {
-#    target_group_arn = var.tg_arn[0]
-#    container_name   = "srv-cnt"
-#    container_port   = 5000
-#  }
-#}
-#
-#resource "aws_ecs_service" "fnt_svc" {
-#  name = var.svc_name[1]
-#  launch_type = var.launch_type
-#  platform_version = var.platform_version
-#  cluster = aws_ecs_cluster.example.id
-#  task_definition = aws_ecs_task_definition.fnt.arn
-#  scheduling_strategy = var.scheduling
-#  desired_count = 1
-#  deployment_minimum_healthy_percent = var.min_healthy_perc
-#  deployment_maximum_percent = var.max_perc
-#  #iam_role = aws_iam_role.ecs_task_exec_role.arn
-#
-#  depends_on = [aws_ecs_task_definition.fnt]
-#
-#  network_configuration {
-#    assign_public_ip = var.pub_ip
-#    security_groups = [var.sec_group_2]
-#    subnets = var.subnets
-#  }
-#}
-
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
