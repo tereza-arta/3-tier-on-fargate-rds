@@ -236,6 +236,3 @@ output "ecs_sg_1_id" {
   value = aws_security_group.for_ecs[1].id
 }
 
-output "ecs_sg_2_id" {
-  value = aws_security_group.for_ecs[2].id
-}

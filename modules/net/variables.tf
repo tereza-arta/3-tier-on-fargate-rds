@@ -144,7 +144,7 @@ variable "lb_sg_cnt" {
 }
 
 variable "lb_sg_name" {
-  default = "Sg-for-lb"
+  default = "Sg-for-LB"
 }
 
 variable "lb_sg_desc" {
@@ -181,6 +181,17 @@ variable "lb_sg_ing" {
     ]
 }
 
+variable "lb_sg_eg_cnt" {
+  type = number
+  default = 2
+}
+
+varaiable "lb_sg_single_eg" {
+  type = bool
+  default = true
+  description = "Lb sec-group with single or multiple egress rules"
+}
+ 
 variable "lb_sg_eg" {
     type = list(object({
       from   = number
@@ -210,12 +221,12 @@ variable "lb_sg_eg_tag" {
 
 variable "ecs_sg_cnt" {
   type = number
-  default = 3
+  default = 2
   description = "Count of SG for ECS components"
 }
 
 variable "ecs_sg_name" {
-  default = "Custom-ecs-sg"
+  default = "Custom-ECS-sg"
 }
 
 variable "ecs_sg_desc" {
@@ -226,57 +237,14 @@ variable "ecs_sg_tag" {
   default = "ecs-sg-tag-value"
 }
 
-variable "one_level_sg_ing_cnt" {
-  type = number
-  default = 1
-}
-
-variable "db_ecs_ind" {
-  type = number
-  default = 0
-}
-
-variable "ecs_sg_ing_without_ref" {
-    type = list(object({
-      from   = number
-      to    = number
-      proto    = string
-      cidr  = string
-      desc = string
-    }))
-    default     = [
-        {
-          from   = 5432
-          to     = 5432
-          proto    = "tcp"
-          cidr  = "0.0.0.0/0"
-          desc = "Allow incoming postgress connection"
-        },
-    ]
-}
-
-variable "without_ref_ing_tag" {
-  default = "ecs-sg-ingress-for-db"
-}
-
-variable "without_ref_eg_tag" {
-  default = "ecs-sg-ingress-for-db"
-}
-
 variable "with_ref_sg_ing_cnt" {
   type = number
   default = 2
 }
 
-
 variable "with_ref_sg_eg_cnt" {
   type = number
   default = 2
-}
-
-variable "iter" {
-  type = number
-  default = 1
 }
 
 variable "with_ref_sg_ing" {
@@ -330,6 +298,11 @@ variable "sg_egress" {
           desc = "Allow all outgoing traffic"
         },
     ]
+}
+
+variable "lb_sg_ind" {
+  type = number
+  default = 1
 }
 
 variable "rds_sg_cnt" {
@@ -387,5 +360,3 @@ variable "rds_eg_proto" {
 variable "rds_eg_desc" {
   default = "Allow all outgoing traffic"
 }
-
-

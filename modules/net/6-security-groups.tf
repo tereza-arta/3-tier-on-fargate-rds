@@ -1,3 +1,4 @@
+#Sharunakel  ....
 #LB sg section
 resource "aws_security_group" "for_lb" {
   count = var.lb_sg_cnt
@@ -24,15 +25,15 @@ resource "aws_vpc_security_group_ingress_rule" "for_lb" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "for_lb" {
-  count = length(var.lb_sg_eg)
+  count = var.lb_sg_eg_cnt
   security_group_id = aws_security_group.for_lb[count.index].id
   tags = {
     Name = var.lb_sg_eg_tag
   }
 
-  ip_protocol = var.lb_sg_eg[count.index].proto
-  cidr_ipv4 = var.lb_sg_eg[count.index].cidr
-  description = var.lb_sg_eg[count.index].desc
+  ip_protocol = var.lb_sg_single_eg ? var.lb_sg_eg.[0]proto : null
+  cidr_ipv4 = var.lb_sg_single_eg ? var.lb_sg_eg[0].cidr : null
+  description = var.lb_sg_single_eg ? var.lb_sg_eg[0].desc : null
 }
 
 # ECS sg section
@@ -48,36 +49,9 @@ resource "aws_security_group" "for_ecs" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "without_ref" {
-  count = length(var.ecs_sg_ing_without_ref)
-  security_group_id = aws_security_group.for_ecs[var.db_ecs_ind].id
-
-  from_port = var.ecs_sg_ing_without_ref[count.index].from
-  to_port = var.ecs_sg_ing_without_ref[count.index].to
-  ip_protocol = var.ecs_sg_ing_without_ref[count.index].proto
-  cidr_ipv4 = var.ecs_sg_ing_without_ref[count.index].cidr
-  description = var.ecs_sg_ing_without_ref[count.index].desc
-
-  tags = {
-    Name = "${var.without_ref_ing_tag}-${count.index}"
-  }
-}
-
-resource "aws_vpc_security_group_egress_rule" "without_ref" {
-  security_group_id = aws_security_group.for_ecs[var.db_ecs_ind].id
-
-  ip_protocol = var.sg_egress[0].proto
-  cidr_ipv4 = var.sg_egress[0].cidr
-  description = var.sg_egress[0].desc
-
-  tags = {
-    Name = var.without_ref_eg_tag
-  }
-}
-
 resource "aws_vpc_security_group_ingress_rule" "with_ref" {
   count = var.with_ref_sg_ing_cnt
-  security_group_id = aws_security_group.for_ecs[count.index + var.iter].id
+  security_group_id = aws_security_group.for_ecs[count.index].id
 
   from_port = var.with_ref_sg_ing[count.index].from
   to_port = var.with_ref_sg_ing[count.index].to
@@ -92,10 +66,10 @@ resource "aws_vpc_security_group_ingress_rule" "with_ref" {
 
 resource "aws_vpc_security_group_egress_rule" "with_ref" {
   count = var.with_ref_sg_eg_cnt
-  security_group_id = aws_security_group.for_ecs[count.index + var.iter].id
+  security_group_id = aws_security_group.for_ecs[count.index].id
 
-  ip_protocol = var.sg_egress[0].proto
-  description = var.sg_egress[0].desc
+  ip_protocol = var.lb_sg_single_eg ? var.sg_egress[0].proto : null
+  description = var.lb_sg_single_eg ? var.sg_egress[0].desc : null
   referenced_security_group_id = aws_security_group.for_lb[1].id
 
   tags = {

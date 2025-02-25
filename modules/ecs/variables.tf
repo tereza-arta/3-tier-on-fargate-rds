@@ -130,7 +130,7 @@ variable "sg_filter_name" {
 }
 
 variable "sg_filter_value" {
-  default = "*RDS*"
+  default = "*ecs-sg-1*"
 }
 
 #variable "task_def_dependency" {}
