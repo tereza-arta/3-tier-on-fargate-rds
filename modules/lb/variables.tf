@@ -41,9 +41,14 @@ variable "tg_name" {
 }
 
 variable "tg_port" {
-  type = list(number)
-  default = [5000, 3000]
+  type = number
+  default = 80
 }
+
+#variable "tg_port" {
+#  type = list(number)
+#  default = [5000, 3000]
+#}
 
 variable "proto" {
   default = "HTTP"
@@ -79,13 +84,9 @@ variable "checking_path" {
   default = "/"
 }
 
-variable "checking_port" {
-  type = number
-  default = "80"
-}
-
 variable "checking_proto" {
   default = "HTTP"
+  #default value of option
 }
 
 variable "tg_tag" {

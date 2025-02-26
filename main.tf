@@ -4,14 +4,14 @@ module "net" {
   
 }
 
-#module "lb" {
-#  source = "./modules/lb"
-#  count = var.enable_lb ? 1 : 0
-#
-#  vpc_id = module.net[0].vpc_id
-#  lb_sg = module.net[0].lb_sg_id
-#  subnets = module.net[0].pub_sub_id
-#}
+module "lb" {
+  source = "./modules/lb"
+  count = var.enable_lb ? 1 : 0
+
+  vpc_id = module.net[0].vpc_id
+  lb_sg = module.net[0].lb_sg_id
+  subnets = module.net[0].pub_sub_id
+}
 
 module "rds" {
   source = "./modules/rds"
@@ -45,7 +45,7 @@ module "ecs" {
 
   cluster_id = null
 
-  #tg_arn = module.lb[0].tg_arn
+  tg_arn = module.lb[0].tg_arn
 }
 
 ##Second ECR module execution

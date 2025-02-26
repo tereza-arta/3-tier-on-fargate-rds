@@ -1,13 +1,20 @@
+data "aws_subnets" "pub" {
+  filter {
+  name = "vpc-id"
+  values = [var.vpc_id]
+  }
+}
+
 resource "aws_lb" "some" {
   count = var.lb_cnt
   name = "${var.lb_name}-${count.index}"
   internal = var.internal
   load_balancer_type = var.lb_type
-  #security_groups = [var.lb_sg]
   security_groups = [element(var.lb_sg, count.index)]
-  subnets = [ element(var.subnets, count.index),
-               element(var.subnets, count.index + 1) ]
+  subnets = [for i in data.aws_subnets.pub.ids : i]
+  #security_groups = [var.lb_sg]
   #subnets = [lookup(tomap(var.subnets), var.subnets[count.index], "some")]
+  #subnets = [ element(var.subnets, count.index), element(var.subnets, count.index + 1) ]
   enable_deletion_protection = var.del_protect
 
   tags = {
@@ -18,7 +25,7 @@ resource "aws_lb" "some" {
 resource "aws_lb_target_group" "some" {
   count = var.tg_cnt
   name = "${var.tg_name}-${count.index}"
-  port = var.tg_port[count.index]
+  port = var.tg_port
   protocol = var.proto
   target_type = var.target_type
   vpc_id = var.vpc_id
@@ -29,7 +36,7 @@ resource "aws_lb_target_group" "some" {
     healthy_threshold = var.healthy_threshold
     unhealthy_threshold = var.unhealthy_threshold
     path = var.checking_path
-    port = var.checking_port
+    #port = (def_value is traffic-port, i.e 5000 or 3000)
     protocol = var.checking_proto
   }
 

@@ -186,7 +186,7 @@ variable "lb_sg_eg_cnt" {
   default = 2
 }
 
-varaiable "lb_sg_single_eg" {
+variable "lb_sg_single_eg" {
   type = bool
   default = true
   description = "Lb sec-group with single or multiple egress rules"
@@ -237,10 +237,10 @@ variable "ecs_sg_tag" {
   default = "ecs-sg-tag-value"
 }
 
-variable "with_ref_sg_ing_cnt" {
-  type = number
-  default = 2
-}
+#variable "with_ref_sg_ing_cnt" {
+#  type = number
+#  default = 2
+#}
 
 variable "with_ref_sg_eg_cnt" {
   type = number

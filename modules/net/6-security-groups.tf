@@ -24,17 +24,17 @@ resource "aws_vpc_security_group_ingress_rule" "for_lb" {
   description = var.lb_sg_ing[count.index].desc
 }
 
-resource "aws_vpc_security_group_egress_rule" "for_lb" {
-  count = var.lb_sg_eg_cnt
-  security_group_id = aws_security_group.for_lb[count.index].id
-  tags = {
-    Name = var.lb_sg_eg_tag
-  }
-
-  ip_protocol = var.lb_sg_single_eg ? var.lb_sg_eg.[0]proto : null
-  cidr_ipv4 = var.lb_sg_single_eg ? var.lb_sg_eg[0].cidr : null
-  description = var.lb_sg_single_eg ? var.lb_sg_eg[0].desc : null
-}
+#resource "aws_vpc_security_group_egress_rule" "for_lb" {
+#  count = var.lb_sg_eg_cnt
+#  security_group_id = aws_security_group.for_lb[count.index].id
+#  tags = {
+#    Name = var.lb_sg_eg_tag
+#  }
+#
+#  ip_protocol = var.lb_sg_single_eg ? var.lb_sg_eg.[0]proto : null
+#  cidr_ipv4 = var.lb_sg_single_eg ? var.lb_sg_eg[0].cidr : null
+#  description = var.lb_sg_single_eg ? var.lb_sg_eg[0].desc : null
+#}
 
 # ECS sg section
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -50,7 +50,7 @@ resource "aws_security_group" "for_ecs" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "with_ref" {
-  count = var.with_ref_sg_ing_cnt
+  count = length(var.with_ref_sg_ing)
   security_group_id = aws_security_group.for_ecs[count.index].id
 
   from_port = var.with_ref_sg_ing[count.index].from
@@ -64,18 +64,18 @@ resource "aws_vpc_security_group_ingress_rule" "with_ref" {
   }
 }
 
-resource "aws_vpc_security_group_egress_rule" "with_ref" {
-  count = var.with_ref_sg_eg_cnt
-  security_group_id = aws_security_group.for_ecs[count.index].id
-
-  ip_protocol = var.lb_sg_single_eg ? var.sg_egress[0].proto : null
-  description = var.lb_sg_single_eg ? var.sg_egress[0].desc : null
-  referenced_security_group_id = aws_security_group.for_lb[1].id
-
-  tags = {
-    Name = var.with_ref_eg_tag
-  }
-}
+#resource "aws_vpc_security_group_egress_rule" "with_ref" {
+#  count = var.with_ref_sg_eg_cnt
+#  security_group_id = aws_security_group.for_ecs[count.index].id
+#
+#  ip_protocol = var.lb_sg_single_eg ? var.sg_egress[0].proto : null
+#  description = var.lb_sg_single_eg ? var.sg_egress[0].desc : null
+#  referenced_security_group_id = aws_security_group.for_lb[1].id
+#
+#  tags = {
+#    Name = var.with_ref_eg_tag
+#  }
+#}
 
 #RDS sg section
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -104,16 +104,16 @@ resource "aws_vpc_security_group_ingress_rule" "for_rds" {
   description = var.rds_sg_ing_desc
 }
 
-resource "aws_vpc_security_group_egress_rule" "for_rds" {
-  count = var.rds_sg_eg_cnt
-  security_group_id = aws_security_group.for_rds[count.index].id
-  tags = {
-    Name = var.rds_sg_eg_tag
-  }
-
-  #from_port
-  #to_port
-  ip_protocol = var.rds_eg_proto
-  cidr_ipv4 = var.default_gateway
-  description = var.rds_eg_desc
-}
+#resource "aws_vpc_security_group_egress_rule" "for_rds" {
+#  count = var.rds_sg_eg_cnt
+#  security_group_id = aws_security_group.for_rds[count.index].id
+#  tags = {
+#    Name = var.rds_sg_eg_tag
+#  }
+#
+#  #from_port
+#  #to_port
+#  ip_protocol = var.rds_eg_proto
+#  cidr_ipv4 = var.default_gateway
+#  description = var.rds_eg_desc
+#}

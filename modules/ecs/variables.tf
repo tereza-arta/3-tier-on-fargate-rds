@@ -130,7 +130,7 @@ variable "sg_filter_name" {
 }
 
 variable "sg_filter_value" {
-  default = "*ecs-sg-1*"
+  default = "*ECS-sg-*"
 }
 
 #variable "task_def_dependency" {}
@@ -184,4 +184,4 @@ variable "pub_ip" {
   description = "Assign public-ip to ENI or not"
 }
 
-#variable "tg_arn" {}
+variable "tg_arn" {}

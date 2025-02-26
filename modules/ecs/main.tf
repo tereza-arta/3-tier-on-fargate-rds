@@ -122,11 +122,11 @@ resource "aws_ecs_service" "this" {
     security_groups = [for i in data.aws_security_groups.for_rds.ids : i]
     subnets = [for i in data.aws_subnets.pub.ids : i]
   }
-#  load_balancer {
-#    target_group_arn = var.tg_arn[0]
-#    container_name   = "srv-cnt"
-#    container_port   = 5000
-#  }
+  load_balancer {
+    target_group_arn = var.tg_arn[0]
+    container_name   = var.cnt_name
+    container_port   = var.app_port
+  }
 }
 
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
