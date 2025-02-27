@@ -197,7 +197,7 @@ variable "lb_sg_eg" {
       from   = number
       to    = number
       proto    = string
-      cidr  = string
+      cidr  = list(string)
       desc = string
     }))
     default     = [
@@ -205,7 +205,7 @@ variable "lb_sg_eg" {
           from   = 0
           to     = 0
           proto    = "-1"
-          cidr  = "0.0.0.0/0"
+          cidr  = ["0.0.0.0/0"]
           desc = "Allow all outgoing traffic"
         },
     ]
@@ -294,7 +294,7 @@ variable "sg_egress" {
           from   = 0
           to     = 0
           proto    = "-1"
-          cidr  = "0.0.0.0/0"
+          cidr  = ["0.0.0.0/0"]
           desc = "Allow all outgoing traffic"
         },
     ]
