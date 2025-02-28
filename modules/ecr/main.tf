@@ -37,7 +37,7 @@ resource "terraform_data" "dkr_pack" {
     aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.eu-north-1.amazonaws.com
     a = var.build_arg
     if [ !$a ]; then docker build -t "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}" -f "${var.df_context}/Dockerfile" .; fi
-    if [ $a ]; then docker build --build-arg "SRV_IP=13.61.21.216" -t "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}" -f "${var.df_context}/Dockerfile" .; fi
+    if [ $a ]; then docker build --build-arg "SRV_IP=${var.srv_addr}" -t "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}" -f "${var.df_context}/Dockerfile" .; fi
     docker push "${aws_ecr_repository.different[var.index].repository_url}:${var.image_tag}"
     EOF
   }

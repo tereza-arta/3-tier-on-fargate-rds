@@ -45,3 +45,4 @@ variable "image_tag" {
   description = "Default image-tag for all app-components"
 }
 
+variable "srv_addr" {}

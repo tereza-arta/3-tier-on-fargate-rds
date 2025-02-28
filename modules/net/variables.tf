@@ -286,7 +286,7 @@ variable "sg_egress" {
       from   = number
       to    = number
       proto    = string
-      cidr  = string
+      cidr  = list(string)
       desc = string
     }))
     default     = [

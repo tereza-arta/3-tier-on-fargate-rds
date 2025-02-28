@@ -5,7 +5,7 @@ resource "aws_security_group" "for_lb" {
   name = "${var.lb_sg_name}-${count.index}"
   vpc_id = aws_vpc.vpc.id
   description =var.lb_sg_desc
-  tags = {i
+  tags = {
     Name = var.lb_sg_tag
   }
 }
@@ -62,13 +62,9 @@ resource "aws_security_group_rule" "ecs_eg" {
   from_port = var.lb_sg_single_eg ? var.sg_egress[0].from : null
   to_port = var.lb_sg_single_eg ? var.sg_egress[0].to : null
   protocol = var.lb_sg_single_eg ? var.sg_egress[0].proto : null
+  cidr_blocks = var.lb_sg_single_eg ? var.sg_egress[0].cidr : null
   description = var.lb_sg_single_eg ? var.sg_egress[0].desc : null
   security_group_id = aws_security_group.for_ecs[count.index].id
-  referenced_security_group_id = aws_security_group.for_lb[count.index].id
-
-  tags = {
-    Name = var.with_ref_eg_tag
-  }
 }
 
 #RDS sg section

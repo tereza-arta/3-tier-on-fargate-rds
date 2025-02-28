@@ -45,11 +45,6 @@ variable "tg_port" {
   default = 80
 }
 
-#variable "tg_port" {
-#  type = list(number)
-#  default = [5000, 3000]
-#}
-
 variable "proto" {
   default = "HTTP"
 }
@@ -105,8 +100,8 @@ variable "lb_listener_cnt" {
 #}
 
 variable "listener_port" {
-  type = list(string)
-  default = ["5000", "3000"]
+  type = list(number)
+  default = [5000, 3000]
 }
 
 #variable "listener_proto" {

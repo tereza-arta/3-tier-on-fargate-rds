@@ -1,7 +1,8 @@
 #Build stage
 FROM node AS builder
 
-ARG SRV_IP
+#ARG SRV_IP
+#ENV REACT_APP_API_URL=${SRV_IP}
 
 WORKDIR /app-dir
 
@@ -12,9 +13,10 @@ RUN npm i react-scripts@latest
 
 COPY app/fnt/source_code/ .
 
+#RUN REACT_APP_API_URL=${SRV_IP} && \
 RUN npm run build
 
-RUN sed -E -i'' "s/(.*API_URL=).*/\1${SRV_IP}/" './.env'
+#RUN sed -E -i'' "s/(.*API_URL=).*/\1${SRV_IP}/" './.env'
 
 #Final stage
 FROM nginx

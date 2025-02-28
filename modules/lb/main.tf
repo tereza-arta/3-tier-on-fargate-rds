@@ -12,9 +12,6 @@ resource "aws_lb" "some" {
   load_balancer_type = var.lb_type
   security_groups = [element(var.lb_sg, count.index)]
   subnets = [for i in data.aws_subnets.pub.ids : i]
-  #security_groups = [var.lb_sg]
-  #subnets = [lookup(tomap(var.subnets), var.subnets[count.index], "some")]
-  #subnets = [ element(var.subnets, count.index), element(var.subnets, count.index + 1) ]
   enable_deletion_protection = var.del_protect
 
   tags = {

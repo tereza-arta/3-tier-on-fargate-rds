@@ -123,7 +123,7 @@ resource "aws_ecs_service" "this" {
     subnets = [for i in data.aws_subnets.pub.ids : i]
   }
   load_balancer {
-    target_group_arn = var.tg_arn[0]
+    target_group_arn = var.tg_arn
     container_name   = var.cnt_name
     container_port   = var.app_port
   }
