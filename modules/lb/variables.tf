@@ -1,6 +1,6 @@
 #Load balancer
 variable "lb_cnt" {
-  type = number
+  type    = number
   default = 2
 }
 
@@ -9,7 +9,7 @@ variable "lb_name" {
 }
 
 variable "internal" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -22,7 +22,7 @@ variable "lb_sg" {}
 variable "subnets" {}
 
 variable "del_protect" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -32,7 +32,7 @@ variable "lb_tag" {
 
 #Target group
 variable "tg_cnt" {
-  type = number
+  type    = number
   default = 2
 }
 
@@ -41,8 +41,8 @@ variable "tg_name" {
 }
 
 variable "tg_port" {
-  type = number
-  default = 80
+  type    = list(number)
+  default = [5000, 3000]
 }
 
 variable "proto" {
@@ -60,18 +60,18 @@ variable "lb_algorithm" {
 }
 
 variable "health_check" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Enable health-checking or not"
 }
 
 variable "healthy_threshold" {
-  type = number
+  type    = number
   default = 2
 }
 
 variable "unhealthy_threshold" {
-  type = number
+  type    = number
   default = 2
 }
 
@@ -90,7 +90,7 @@ variable "tg_tag" {
 
 #Listener
 variable "lb_listener_cnt" {
-  type = number
+  type    = number
   default = 2
 }
 
@@ -100,8 +100,8 @@ variable "lb_listener_cnt" {
 #}
 
 variable "listener_port" {
-  type = list(number)
-  default = [5000, 3000]
+  type    = number
+  default = 80
 }
 
 #variable "listener_proto" {
@@ -113,8 +113,8 @@ variable "listener_proto" {
 }
 
 variable "ssl" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Attach certificate or not"
 }
 

@@ -5,25 +5,25 @@ variable "vpc_cidr" {
 }
 
 variable "tenancy" {
-  default = "default"
+  default     = "default"
   description = "Specify tenancy type"
 }
 
 variable "dns_support" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Enable dns support or not"
 }
 
 variable "dns_hostname" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Enable dns hostname or not"
 }
 
 variable "addr_usage_metrics" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Enable net-addr usage metrics or not"
 }
 
@@ -37,7 +37,7 @@ variable "vpc_additional_tag" {
 
 #For multi-example Vpc
 variable "vpc_cnt" {
-  type = number
+  type    = number
   default = 0
 }
 
@@ -53,31 +53,31 @@ variable "igw_tag" {
 
 #Subnet section
 variable "pub_sub_cnt" {
-  type = number
-  default = 2
+  type        = number
+  default     = 2
   description = "The number of needed Public Subnets"
 }
 
 variable "priv_sub_cnt" {
-  type = number
-  default = 0
+  type        = number
+  default     = 0
   description = "The number of needed Private Subnets"
 }
 
 variable "av_zones" {
-  type = list(string)
+  type    = list(string)
   default = ["eu-north-1a", "eu-north-1b"]
 }
 
 variable "map_public_ip" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Map pub-ip for public subnet"
 }
 
 variable "only_ipv6" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Create ipv6-only subnet or not"
 }
 
@@ -90,13 +90,13 @@ variable "priv_sub_tag" {
 }
 
 variable "subnets_data_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 
 #Eip/NAT
 variable "eip_cnt" {
-  type = number
+  type    = number
   default = 0
 }
 
@@ -109,7 +109,7 @@ variable "eip_tag" {
 }
 
 variable "nat_cnt" {
-  type = number
+  type    = number
   default = 0
 }
 
@@ -123,23 +123,23 @@ variable "default_gateway" {
 }
 
 variable "rt_pub_tag" {
-  default = "Custom Route table for pub-sub"
+  default     = "Custom Route table for pub-sub"
   description = "Tag for second RT"
 }
 
 variable "rt_priv_tag" {
-  default = "Custom Route table for priv-sub"
+  default     = "Custom Route table for priv-sub"
   description = "Tag for second RT"
 }
 
 variable "priv_rt_cnt" {
-  type = number
+  type    = number
   default = 0
 }
 
 #Security Group
 variable "lb_sg_cnt" {
-  type = number
+  type    = number
   default = 2
 }
 
@@ -156,59 +156,59 @@ variable "lb_sg_tag" {
 }
 
 variable "lb_sg_ing" {
-    type = list(object({
-      from   = number
-      to    = number
-      proto    = string
-      cidr  = string
-      desc = string
-    }))
-    default     = [
-        {
-          from   = 5000
-          to     = 5000
-          proto    = "tcp"
-          cidr  = "0.0.0.0/0"
-          desc = "Allow incoming back traffic"
-        },
-        {
-          from   = 3000
-          to     = 3000 
-          proto    = "tcp"
-          cidr  = "0.0.0.0/0"
-          desc = "Allow incoming front traffic"
-        },
-    ]
+  type = list(object({
+    from  = number
+    to    = number
+    proto = string
+    cidr  = string
+    desc  = string
+  }))
+  default = [
+    {
+      from  = 5000
+      to    = 5000
+      proto = "tcp"
+      cidr  = "0.0.0.0/0"
+      desc  = "Allow incoming back traffic"
+    },
+    {
+      from  = 3000
+      to    = 3000
+      proto = "tcp"
+      cidr  = "0.0.0.0/0"
+      desc  = "Allow incoming front traffic"
+    },
+  ]
 }
 
 variable "lb_sg_eg_cnt" {
-  type = number
+  type    = number
   default = 2
 }
 
 variable "lb_sg_single_eg" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "Lb sec-group with single or multiple egress rules"
 }
- 
+
 variable "lb_sg_eg" {
-    type = list(object({
-      from   = number
-      to    = number
-      proto    = string
-      cidr  = list(string)
-      desc = string
-    }))
-    default     = [
-        {
-          from   = 0
-          to     = 0
-          proto    = "-1"
-          cidr  = ["0.0.0.0/0"]
-          desc = "Allow all outgoing traffic"
-        },
-    ]
+  type = list(object({
+    from  = number
+    to    = number
+    proto = string
+    cidr  = list(string)
+    desc  = string
+  }))
+  default = [
+    {
+      from  = 0
+      to    = 0
+      proto = "-1"
+      cidr  = ["0.0.0.0/0"]
+      desc  = "Allow all outgoing traffic"
+    },
+  ]
 }
 
 variable "lb_sg_ing_tag" {
@@ -220,8 +220,8 @@ variable "lb_sg_eg_tag" {
 }
 
 variable "ecs_sg_cnt" {
-  type = number
-  default = 2
+  type        = number
+  default     = 2
   description = "Count of SG for ECS components"
 }
 
@@ -243,34 +243,34 @@ variable "ecs_sg_tag" {
 #}
 
 variable "with_ref_sg_eg_cnt" {
-  type = number
+  type    = number
   default = 2
 }
 
 variable "with_ref_sg_ing" {
-    type = list(object({
-      from   = number
-      to    = number
-      proto    = string
-      cidr  = string
-      desc = string
-    }))
-    default     = [
-        {
-          from   = 5000
-          to     = 5000
-          proto    = "tcp"
-          cidr  = "0.0.0.0/0"
-          desc = "Allow incoming back traffic"
-        },
-        {
-          from   = 3000
-          to     = 3000
-          proto    = "tcp"
-          cidr  = "0.0.0.0/0"
-          desc = "Allow incoming front traffic"
-        },
-    ]
+  type = list(object({
+    from  = number
+    to    = number
+    proto = string
+    cidr  = string
+    desc  = string
+  }))
+  default = [
+    {
+      from  = 5000
+      to    = 5000
+      proto = "tcp"
+      cidr  = "0.0.0.0/0"
+      desc  = "Allow incoming back traffic"
+    },
+    {
+      from  = 3000
+      to    = 3000
+      proto = "tcp"
+      cidr  = "0.0.0.0/0"
+      desc  = "Allow incoming front traffic"
+    },
+  ]
 }
 
 variable "with_ref_ing_tag" {
@@ -282,31 +282,31 @@ variable "with_ref_eg_tag" {
 }
 
 variable "sg_egress" {
-    type = list(object({
-      from   = number
-      to    = number
-      proto    = string
-      cidr  = list(string)
-      desc = string
-    }))
-    default     = [
-        {
-          from   = 0
-          to     = 0
-          proto    = "-1"
-          cidr  = ["0.0.0.0/0"]
-          desc = "Allow all outgoing traffic"
-        },
-    ]
+  type = list(object({
+    from  = number
+    to    = number
+    proto = string
+    cidr  = list(string)
+    desc  = string
+  }))
+  default = [
+    {
+      from  = 0
+      to    = 0
+      proto = "-1"
+      cidr  = ["0.0.0.0/0"]
+      desc  = "Allow all outgoing traffic"
+    },
+  ]
 }
 
 variable "lb_sg_ind" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "rds_sg_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -323,7 +323,7 @@ variable "rds_sg_tag" {
 }
 
 variable "rds_sg_ing_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -332,7 +332,7 @@ variable "rds_sg_ing_tag" {
 }
 
 variable "rds_ing_port" {
-  type = number
+  type    = number
   default = 5432
 }
 
@@ -345,7 +345,7 @@ variable "rds_sg_ing_desc" {
 }
 
 variable "rds_sg_eg_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 

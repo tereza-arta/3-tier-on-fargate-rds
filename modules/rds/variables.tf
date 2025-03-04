@@ -1,5 +1,5 @@
 variable "param_group_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -27,11 +27,11 @@ variable "param_group_tag" {
   default = "Parameter-group-tag-val"
 }
 
-variable  "vpc" {
+variable "vpc" {
 }
 
 variable "sub_group_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -58,7 +58,7 @@ variable "sg_filter_value" {
 }
 
 variable "db_cnt" {
-  type = number
+  type    = number
   default = 1
 }
 
@@ -71,7 +71,7 @@ variable "engine_version" {
 }
 
 variable "multi_az" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -96,18 +96,18 @@ variable "storage_type" {
 }
 
 variable "alloc_storage" {
-  type = number
+  type    = number
   default = 50
 }
 
 variable "max_alloc_storage" {
-  type = number
+  type    = number
   default = 100
 }
 
 variable "pub_accessible" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Make db instance publicly accessable or not"
 }
 
@@ -116,6 +116,6 @@ variable "db_init_name" {
 }
 
 variable "skip_snapshot" {
-  type = bool
+  type    = bool
   default = true
 }

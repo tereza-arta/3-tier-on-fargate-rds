@@ -9,7 +9,8 @@ const MainComponent = () => {
   // Use useCallback inside the component function
   const getAllNumbers = useCallback(async () => {
     try {
-      const response = await axios.get(`http://${process.env.REACT_APP_API_URL}:5000/api/values/all`);
+      const response = await axios.get(`http://${process.env.REACT_APP_API_URL}/api/values/all`);
+      //const response = await axios.get(`http://Custom-lb-0-383338179.eu-north-1.elb.amazonaws.com/api/values/all`);
       setValues(response.data.map(row => row.number)); // Match backend response format
     } catch (error) {
       console.error("Error fetching numbers:", error);
@@ -20,7 +21,8 @@ const MainComponent = () => {
     async (event) => {
       event.preventDefault();
       try {
-        await axios.post(`http://${process.env.REACT_APP_API_URL}:5000/api/values`, {
+        await axios.post(`http://${process.env.REACT_APP_API_URL}/api/values`, {
+        //await axios.post(`http://Custom-lb-0-383338179.eu-north-1.elb.amazonaws.com/api/values`, {
           value,
         });
         setValue("");  // Clear the input after saving
@@ -39,7 +41,7 @@ const MainComponent = () => {
 
   return (
     <div>
-      <button onClick={getAllNumbers}>Get all numbers {process.env.REACT_APP_API_URL} </button>
+      <button onClick={getAllNumbers}>Get all numbers</button>
       <br />
       <span className="title">Values</span>
       <div className="values">

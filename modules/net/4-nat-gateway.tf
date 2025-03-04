@@ -1,6 +1,6 @@
 resource "aws_eip" "eip" {
-  count = var.eip_cnt
-  domain = var.eip_domain
+  count      = var.eip_cnt
+  domain     = var.eip_domain
   depends_on = [aws_internet_gateway.igw]
 
   tags = {
@@ -9,7 +9,7 @@ resource "aws_eip" "eip" {
 }
 
 resource "aws_nat_gateway" "nat" {
-  count = var.nat_cnt
+  count         = var.nat_cnt
   allocation_id = element(aws_eip.eip.*.id, count.index)
   subnet_id     = element(aws_subnet.pub.*.id, count.index)
   depends_on    = [aws_eip.eip]
