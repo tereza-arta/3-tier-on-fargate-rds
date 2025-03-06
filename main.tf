@@ -32,19 +32,22 @@ module "ecs" {
   count  = var.enable_ecs ? 1 : 0
 
   repo_url      = module.ecr[0].repo_url
+  repo_name     = "srv"
   task_def_name = "srv-task-def"
   cnt_name      = "srv-cnt"
   app_port      = 5000
   db_username   = module.rds[0].username
   db_password   = module.rds[0].password
   db_name       = module.rds[0].db_name
-  db_host  = module.rds[0].rds_0_addr
-  vpc_id   = module.net[0].vpc_id
-  svc_name = "srv-svc"
+  db_host       = module.rds[0].rds_0_addr
+  vpc_id        = module.net[0].vpc_id
+  svc_name      = "srv-svc"
 
   cluster_id = null
 
   tg_arn = module.lb[0].tg_arn_1
+
+  depends_on = [module.ecr[0]]
 }
 
 #Second ECR module execution
@@ -66,6 +69,7 @@ module "ecs-sec" {
 
   role_name           = "execRoleSecond"
   cluster_name        = "c-name"
+  repo_name           = "fnt"
   task_def_name       = "fnt-task-def"
   cnt_name            = "fnt-cnt"
   app_port            = 3000

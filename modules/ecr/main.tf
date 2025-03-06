@@ -13,7 +13,7 @@ data "template_file" "policy" {
 resource "aws_ecr_lifecycle_policy" "example" {
   count      = var.ecr_cnt
   repository = aws_ecr_repository.different[count.index].name
-  policy = data.template_file.policy.rendered
+  policy     = data.template_file.policy.rendered
 }
 
 resource "terraform_data" "dkr_pack" {

@@ -1,4 +1,3 @@
-#Sharunakel  ....
 #LB sg section
 resource "aws_security_group" "for_lb" {
   count       = var.lb_sg_cnt
@@ -32,7 +31,7 @@ resource "aws_security_group_rule" "lb_eg" {
   security_group_id = aws_security_group.for_lb[count.index].id
 }
 
-# ECS sg section
+#ECS sg section
 #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 resource "aws_security_group" "for_ecs" {

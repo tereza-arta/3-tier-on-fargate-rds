@@ -28,19 +28,26 @@ resource "aws_ecs_cluster" "example" {
   }
 }
 
+data "aws_ecr_image" "img" {
+  repository_name = var.repo_name
+  #image_tag = var.image_tag
+  most_recent = true
+}
+
 resource "aws_ecs_task_definition" "this" {
   count                    = var.task_def_cnt
   family                   = var.task_def_name
   requires_compatibilities = [var.launch_type]
-  execution_role_arn = aws_iam_role.ecs_task_exec_role[var.index].arn
-  network_mode       = var.net_mode
-  cpu                = var.task_cpu
-  memory             = var.task_memory
+  execution_role_arn       = aws_iam_role.ecs_task_exec_role[var.index].arn
+  network_mode             = var.net_mode
+  cpu                      = var.task_cpu
+  memory                   = var.task_memory
 
   container_definitions = jsonencode([
     {
-      name      = var.cnt_name
-      image     = "${var.repo_url[var.index]}:${var.image_tag}"
+      name = var.cnt_name
+      #image    = "${var.repo_url[var.index]}:${var.image_tag}"
+      image     = data.aws_ecr_image.img.image_uri
       cpu       = var.cnt_cpu
       memory    = var.cnt_memory
       essential = var.essential

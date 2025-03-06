@@ -22,6 +22,8 @@ variable "cluster_tag" {
   default = "Cluster-tag-value"
 }
 
+variable "repo_name" {}
+
 variable "task_def_cnt" {
   type    = number
   default = 1
@@ -95,7 +97,7 @@ variable "app_port" {
 }
 
 variable "primary_port" {
-  type = number
+  type    = number
   default = 5000
 }
 
