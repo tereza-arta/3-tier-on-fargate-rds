@@ -28,17 +28,11 @@ resource "aws_ecs_cluster" "example" {
   }
 }
 
-#data "aws_ecs_task_definition" "td" {
-#  task_definition = aws_ecs_task_definition.td.family
-#}
-
 resource "aws_ecs_task_definition" "this" {
   count                    = var.task_def_cnt
   family                   = var.task_def_name
   requires_compatibilities = [var.launch_type]
-  #execution_role_arn = var.index == 0 ? aws_iam_role.ecs_task_exec_role.arn : ""
-  #execution_role_arn = aws_iam_role.ecs_task_exec_role[var.index].arn
-  execution_role_arn = "arn:aws:iam::637423489195:role/access-to-ecr-image-from-ecs-task"
+  execution_role_arn = aws_iam_role.ecs_task_exec_role[var.index].arn
   network_mode       = var.net_mode
   cpu                = var.task_cpu
   memory             = var.task_memory
@@ -56,7 +50,7 @@ resource "aws_ecs_task_definition" "this" {
           hostPort      = var.app_port
         }
       ]
-      environment = var.app_port != 5000 ? [] : [
+      environment = var.app_port != var.primary_port ? [] : [
         {
           name  = var.env_1
           value = var.db_username
@@ -81,7 +75,6 @@ resource "aws_ecs_task_definition" "this" {
     }
 
   ])
-  #depends_on = [var.task_def_dependency]
 }
 
 data "aws_subnets" "pub" {
@@ -102,7 +95,6 @@ data "aws_security_groups" "for_rds" {
   }
 }
 
-
 resource "aws_ecs_service" "this" {
   count                              = var.svc_cnt
   name                               = "${var.svc_name}-${count.index}"
@@ -114,9 +106,6 @@ resource "aws_ecs_service" "this" {
   desired_count                      = var.desired_count
   deployment_minimum_healthy_percent = var.min_healthy_perc
   deployment_maximum_percent         = var.max_perc
-  #iam_role = aws_iam_role.ecs_task_exec_role.arn
-
-  depends_on = [aws_ecs_task_definition.this]
 
   network_configuration {
     assign_public_ip = var.pub_ip
@@ -128,11 +117,7 @@ resource "aws_ecs_service" "this" {
     container_name   = var.cnt_name
     container_port   = var.app_port
   }
+
+  depends_on = [aws_ecs_task_definition.this]
 }
-
-#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-#data "aws_ecs_task_definition" "td" {
-#  task_definition = aws_ecs_task_definition.td.family
-#}
 

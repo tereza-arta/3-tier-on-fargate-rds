@@ -22,12 +22,6 @@ variable "mutability" {
 
 variable "df_context" {}
 
-#variable "df_context" {
-#  type = list(string)
-#  default = ["app/srv", "app/fnt"]
-#  description = "Relative path of appropriate app-component Dockerfilei"
-#}
-
 variable "tf_data_dkr_pack" {
   type        = bool
   default     = true
@@ -45,4 +39,7 @@ variable "image_tag" {
   description = "Default image-tag for all app-components"
 }
 
-variable "srv_addr" {}
+#missing
+variable "srv_addr" {
+  default = ""
+}

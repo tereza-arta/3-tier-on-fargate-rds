@@ -94,6 +94,11 @@ variable "app_port" {
   type = number
 }
 
+variable "primary_port" {
+  type = number
+  default = 5000
+}
+
 variable "env_1" {
   default = "PGUSER"
 }

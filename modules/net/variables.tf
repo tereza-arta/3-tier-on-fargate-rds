@@ -165,15 +165,15 @@ variable "lb_sg_ing" {
   }))
   default = [
     {
-      from  = 5000
-      to    = 5000
+      from  = 80
+      to    = 80
       proto = "tcp"
       cidr  = "0.0.0.0/0"
       desc  = "Allow incoming back traffic"
     },
     {
-      from  = 3000
-      to    = 3000
+      from  = 80
+      to    = 80
       proto = "tcp"
       cidr  = "0.0.0.0/0"
       desc  = "Allow incoming front traffic"

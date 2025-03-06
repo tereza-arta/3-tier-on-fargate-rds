@@ -1,7 +1,6 @@
 module "net" {
   source = "./modules/net"
   count  = var.enable_net ? 1 : 0
-
 }
 
 module "lb" {
@@ -26,8 +25,6 @@ module "ecr" {
 
   repo_name  = "srv"
   df_context = "app/srv"
-
-  srv_addr = "11.22.33.77"
 }
 
 module "ecs" {
@@ -41,8 +38,7 @@ module "ecs" {
   db_username   = module.rds[0].username
   db_password   = module.rds[0].password
   db_name       = module.rds[0].db_name
-  #db_host = module.rds[0].rds_0_endpoint
-  db_host  = "rds-db.cls6yeyq2de1.eu-north-1.rds.amazonaws.com"
+  db_host  = module.rds[0].rds_0_addr
   vpc_id   = module.net[0].vpc_id
   svc_name = "srv-svc"
 
@@ -61,7 +57,6 @@ module "ecr-sec" {
   df_context = "app/fnt"
   srv_addr   = module.lb[0].dns_name_1
 
-  #depends_on = [module.ecs[0]]
 }
 
 ###Second ECS module execution

@@ -6,28 +6,14 @@ resource "aws_ecr_repository" "different" {
 
 data "aws_caller_identity" "current" {}
 
+data "template_file" "policy" {
+  template = file("${path.module}/templates/ecr/lifecycle-policy.json.tpl")
+}
+
 resource "aws_ecr_lifecycle_policy" "example" {
   count      = var.ecr_cnt
   repository = aws_ecr_repository.different[count.index].name
-
-  policy = <<EOF
-{
-    "rules": [
-        {
-            "rulePriority": 1,
-            "description": "Keep last 3 images",
-            "selection": {
-                "tagStatus": "any",
-                "countType": "imageCountMoreThan",
-                "countNumber": 3
-            },
-            "action": {
-                "type": "expire"
-            }
-        }
-    ]
-}
-EOF
+  policy = data.template_file.policy.rendered
 }
 
 resource "terraform_data" "dkr_pack" {
@@ -42,6 +28,5 @@ resource "terraform_data" "dkr_pack" {
   triggers_replace = {
     "run_at" = timestamp()
   }
-  #depends_on = [var.dkr_pack_dependency]
 }
 
